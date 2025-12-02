@@ -35,10 +35,16 @@ export function SubjectDetails() {
     async function fetchProducts() {
       if (!subject) return;
 
+      const subjectName = subjectNames[subject.toLowerCase()];
+      if (!subjectName) {
+        setLoading(false);
+        return;
+      }
+
       const { data, error } = await supabase
         .from('products')
         .select('*')
-        .eq('subject', subjectNames[subject] || '')
+        .ilike('subject', subjectName)
         .eq('is_active', true)
         .order('price', { ascending: true });
 
@@ -55,7 +61,7 @@ export function SubjectDetails() {
     navigate(`/checkout?product=${productId}`);
   };
 
-  if (!subject || !subjectNames[subject]) {
+  if (!subject || !subjectNames[subject.toLowerCase()]) {
     return (
       <div className="py-16 text-center">
         <h1 className="text-2xl font-bold text-primary-navy">Subject not found</h1>
@@ -75,7 +81,7 @@ export function SubjectDetails() {
             Back to All Subjects
           </Link>
           <h1 className="text-3xl md:text-4xl font-bold text-primary-navy mb-4 leading-relaxed-heading">
-            {subjectNames[subject]} Exam Preparation
+            {subjectNames[subject.toLowerCase()]} Exam Preparation
           </h1>
           <p className="text-lg text-gray-700 leading-relaxed-body max-w-3xl">
             Choose the exam preparation pack that matches your exam goals. All packs include structured study materials,
