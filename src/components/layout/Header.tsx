@@ -48,25 +48,29 @@ export function Header() {
           <nav className="hidden md:flex items-center space-x-8" aria-label="Main navigation">
             <Link
               to="/exam-preparation"
-              className="text-base text-primary-navy hover:text-primary-accent transition-all duration-200 hover:scale-105 min-h-[44px] flex items-center"
+              className="text-base font-semibold text-primary-navy hover:text-[#1A73E8] transition-all duration-[180ms] ease-out hover:-translate-y-[1px] min-h-[44px] flex items-center"
+              style={{ letterSpacing: '0.2px' }}
             >
               Exam Packs
             </Link>
             <Link
               to="/prompts"
-              className="text-base text-primary-navy hover:text-primary-accent transition-all duration-200 hover:scale-105 min-h-[44px] flex items-center"
+              className="text-base font-semibold text-primary-navy hover:text-[#1A73E8] transition-all duration-[180ms] ease-out hover:-translate-y-[1px] min-h-[44px] flex items-center"
+              style={{ letterSpacing: '0.2px' }}
             >
               Prompt Packs
             </Link>
             <Link
               to="/free-resources"
-              className="text-base text-primary-navy hover:text-primary-accent transition-all duration-200 hover:scale-105 min-h-[44px] flex items-center"
+              className="text-base font-semibold text-primary-navy hover:text-[#1A73E8] transition-all duration-[180ms] ease-out hover:-translate-y-[1px] min-h-[44px] flex items-center"
+              style={{ letterSpacing: '0.2px' }}
             >
               Free Resources
             </Link>
             <Link
               to="/contact"
-              className="text-base text-primary-navy hover:text-primary-accent transition-all duration-200 hover:scale-105 min-h-[44px] flex items-center"
+              className="text-base font-semibold text-primary-navy hover:text-[#1A73E8] transition-all duration-[180ms] ease-out hover:-translate-y-[1px] min-h-[44px] flex items-center"
+              style={{ letterSpacing: '0.2px' }}
             >
               Contact
             </Link>
@@ -91,28 +95,32 @@ export function Header() {
             <div className="flex flex-col space-y-2">
               <Link
                 to="/exam-preparation"
-                className="text-base text-primary-navy hover:text-primary-accent hover:bg-primary-light transition-all duration-200 py-3 px-4 rounded-md min-h-[48px] flex items-center"
+                className="text-base font-semibold text-primary-navy hover:text-[#1A73E8] hover:bg-primary-light transition-all duration-[180ms] ease-out py-3 px-4 rounded-md min-h-[48px] flex items-center"
+                style={{ letterSpacing: '0.2px' }}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Exam Packs
               </Link>
               <Link
                 to="/prompts"
-                className="text-base text-primary-navy hover:text-primary-accent hover:bg-primary-light transition-all duration-200 py-3 px-4 rounded-md min-h-[48px] flex items-center"
+                className="text-base font-semibold text-primary-navy hover:text-[#1A73E8] hover:bg-primary-light transition-all duration-[180ms] ease-out py-3 px-4 rounded-md min-h-[48px] flex items-center"
+                style={{ letterSpacing: '0.2px' }}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Prompt Packs
               </Link>
               <Link
                 to="/free-resources"
-                className="text-base text-primary-navy hover:text-primary-accent hover:bg-primary-light transition-all duration-200 py-3 px-4 rounded-md min-h-[48px] flex items-center"
+                className="text-base font-semibold text-primary-navy hover:text-[#1A73E8] hover:bg-primary-light transition-all duration-[180ms] ease-out py-3 px-4 rounded-md min-h-[48px] flex items-center"
+                style={{ letterSpacing: '0.2px' }}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Free Resources
               </Link>
               <Link
                 to="/contact"
-                className="text-base text-primary-navy hover:text-primary-accent hover:bg-primary-light transition-all duration-200 py-3 px-4 rounded-md min-h-[48px] flex items-center"
+                className="text-base font-semibold text-primary-navy hover:text-[#1A73E8] hover:bg-primary-light transition-all duration-[180ms] ease-out py-3 px-4 rounded-md min-h-[48px] flex items-center"
+                style={{ letterSpacing: '0.2px' }}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contact
