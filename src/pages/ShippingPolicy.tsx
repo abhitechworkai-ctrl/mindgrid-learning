@@ -9,7 +9,7 @@ export function ShippingPolicy() {
           <h1 className="text-3xl md:text-4xl font-bold text-primary-navy mb-4 leading-relaxed-heading">
             Shipping Policy
           </h1>
-          <p className="text-base text-gray-600">Last updated: December 2024</p>
+          <p className="text-base text-gray-600">Last updated: December 2025</p>
         </div>
       </section>
 
