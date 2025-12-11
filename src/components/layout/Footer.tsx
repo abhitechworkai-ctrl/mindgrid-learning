@@ -73,6 +73,14 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
+                    to="/shipping-policy"
+                    className="text-gray-300 hover:text-primary-accent transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
+                  >
+                    Shipping Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     to="/privacy-policy"
                     className="text-gray-300 hover:text-primary-accent transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
                   >
