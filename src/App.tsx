@@ -7,6 +7,7 @@ import { Prompts } from './pages/Prompts';
 import { FreeResources } from './pages/FreeResources';
 import { Checkout } from './pages/Checkout';
 import { Success } from './pages/Success';
+import { Failed } from './pages/Failed';
 import { Contact } from './pages/Contact';
 import { PrivacyPolicy } from './pages/PrivacyPolicy';
 import { Terms } from './pages/Terms';
@@ -28,6 +29,7 @@ function App() {
           <Route path="/free-resources" element={<FreeResources />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/success" element={<Success />} />
+          <Route path="/failed" element={<Failed />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<Terms />} />

@@ -138,71 +138,64 @@ export function Checkout() {
         return;
       }
 
-      const { data: orderData, error: orderError } = await supabase
-        .from('orders')
-        .insert({
-          customer_name: name,
-          customer_email: email,
-          customer_phone: phone || null,
-          product_type: product ? 'exam_pack' : 'prompt_pack',
-          product_id: item.id,
-          subject: item.subject,
-          pack_type: product?.pack_type || null,
+      const apiUrl = `${env.supabase.url}/functions/v1/create-order`;
+      const createOrderResponse = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${env.supabase.anonKey}`,
+        },
+        body: JSON.stringify({
+          productId: product ? item.id : undefined,
+          promptPackId: promptPack ? item.id : undefined,
           amount: item.price,
-          status: 'pending',
-        })
-        .select()
-        .single();
+          customerName: name,
+          customerEmail: email,
+          customerPhone: phone || undefined,
+        }),
+      });
 
-      if (orderError) throw orderError;
+      if (!createOrderResponse.ok) {
+        const errorData = await createOrderResponse.json();
+        throw new Error(errorData.error || 'Failed to create order');
+      }
+
+      const { orderId, amount, currency, keyId, databaseOrderId } = await createOrderResponse.json();
 
       const options = {
-        key: env.razorpay.keyId,
-        amount: item.price * 100,
-        currency: 'INR',
+        key: keyId,
+        amount: amount * 100,
+        currency: currency,
         name: 'MindGrid Learning Solutions',
         description: item.name,
-        order_id: undefined,
+        order_id: orderId,
         handler: async function (response: any) {
           try {
-            const { error: updateError } = await supabase
-              .from('orders')
-              .update({
+            const verifyUrl = `${env.supabase.url}/functions/v1/verify-payment`;
+            const verifyResponse = await fetch(verifyUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${env.supabase.anonKey}`,
+              },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_order_id: response.razorpay_order_id || '',
-                status: 'completed',
-              })
-              .eq('id', orderData.id);
+                razorpay_signature: response.razorpay_signature,
+                databaseOrderId: databaseOrderId,
+              }),
+            });
 
-            if (updateError) throw updateError;
-
-            if (env.webhooks.orderUrl) {
-              try {
-                await fetch(env.webhooks.orderUrl, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    order_id: orderData.id,
-                    customer_name: name,
-                    customer_email: email,
-                    customer_phone: phone,
-                    product_type: product ? 'exam_pack' : 'prompt_pack',
-                    subject: item.subject,
-                    pack_type: product?.pack_type || null,
-                    amount: item.price,
-                    razorpay_payment_id: response.razorpay_payment_id,
-                    timestamp: new Date().toISOString(),
-                  }),
-                });
-              } catch (webhookError) {
-                console.error('Webhook error:', webhookError);
-              }
+            if (!verifyResponse.ok) {
+              const errorData = await verifyResponse.json();
+              throw new Error(errorData.error || 'Payment verification failed');
             }
 
-            navigate(`/success?order=${orderData.id}`);
+            const verifyData = await verifyResponse.json();
+            navigate(`/success?order=${verifyData.orderId}`);
           } catch (error) {
-            console.error('Error updating order:', error);
-            alert('Payment successful but there was an error. Please contact support.');
+            console.error('Error verifying payment:', error);
+            navigate(`/failed?order=${databaseOrderId}`);
           }
         },
         prefill: {
@@ -216,6 +209,7 @@ export function Checkout() {
         modal: {
           ondismiss: function () {
             setIsProcessing(false);
+            navigate(`/failed?order=${databaseOrderId}`);
           },
         },
       };
