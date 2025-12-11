@@ -40,6 +40,7 @@ export function Checkout() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [errors, setErrors] = useState<{ name?: string; email?: string; phone?: string }>({});
 
   const productId = searchParams.get('product');
   const promptPackId = searchParams.get('promptpack');
@@ -73,6 +74,29 @@ export function Checkout() {
     fetchProduct();
   }, [productId, promptPackId]);
 
+  const validateForm = () => {
+    const newErrors: { name?: string; email?: string; phone?: string } = {};
+
+    if (!name.trim()) {
+      newErrors.name = 'Name is required';
+    } else if (name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters';
+    }
+
+    if (!email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    if (phone && phone.trim() && !/^\d{10}$/.test(phone.replace(/\D/g, ''))) {
+      newErrors.phone = 'Please enter a valid 10-digit phone number';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
       const script = document.createElement('script');
@@ -85,6 +109,12 @@ export function Checkout() {
 
   const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrors({});
+
+    if (!validateForm()) {
+      return;
+    }
+
     setIsProcessing(true);
 
     try {
@@ -223,54 +253,93 @@ export function Checkout() {
   const item = product || promptPack;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div id="main-content" className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-primary-navy mb-8 text-center">Checkout</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-primary-navy mb-8 text-center animate-fade-up">Checkout</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <Card className="p-6 md:p-8">
-            <h2 className="text-2xl font-bold text-primary-navy mb-6">Your Details</h2>
+          <Card className="p-6 md:p-8 animate-fade-up stagger-2">
+            <h2 className="text-2xl md:text-3xl font-bold text-primary-navy mb-6">Your Details</h2>
             <form onSubmit={handlePayment} className="space-y-4">
-              <Input
-                label="Full Name"
-                type="text"
-                placeholder="Enter your name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-              <Input
-                label="Email Address"
-                type="email"
-                placeholder="your.email@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <Input
-                label="Phone Number (Optional)"
-                type="tel"
-                placeholder="10-digit mobile number"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
+              <div>
+                <Input
+                  label="Full Name"
+                  type="text"
+                  placeholder="Enter your name"
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    if (errors.name) setErrors({ ...errors, name: undefined });
+                  }}
+                  required
+                  aria-invalid={!!errors.name}
+                  aria-describedby={errors.name ? 'name-error' : undefined}
+                  className={errors.name ? 'border-red-500' : ''}
+                />
+                {errors.name && (
+                  <p id="name-error" className="text-sm text-red-600 mt-1">
+                    {errors.name}
+                  </p>
+                )}
+              </div>
+              <div>
+                <Input
+                  label="Email Address"
+                  type="email"
+                  placeholder="your.email@example.com"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (errors.email) setErrors({ ...errors, email: undefined });
+                  }}
+                  required
+                  aria-invalid={!!errors.email}
+                  aria-describedby={errors.email ? 'email-error' : undefined}
+                  className={errors.email ? 'border-red-500' : ''}
+                />
+                {errors.email && (
+                  <p id="email-error" className="text-sm text-red-600 mt-1">
+                    {errors.email}
+                  </p>
+                )}
+              </div>
+              <div>
+                <Input
+                  label="Phone Number (Optional)"
+                  type="tel"
+                  placeholder="10-digit mobile number"
+                  value={phone}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                    if (errors.phone) setErrors({ ...errors, phone: undefined });
+                  }}
+                  aria-invalid={!!errors.phone}
+                  aria-describedby={errors.phone ? 'phone-error' : undefined}
+                  className={errors.phone ? 'border-red-500' : ''}
+                />
+                {errors.phone && (
+                  <p id="phone-error" className="text-sm text-red-600 mt-1">
+                    {errors.phone}
+                  </p>
+                )}
+              </div>
 
-              <Button type="submit" fullWidth disabled={isProcessing}>
-                {isProcessing ? 'Processing...' : `Pay ₹${item?.price}`}
+              <Button type="submit" fullWidth loading={isProcessing}>
+                {`Pay ₹${item?.price}`}
               </Button>
 
               <div className="flex items-center justify-center text-sm text-gray-600 mt-4">
-                <Lock className="w-4 h-4 mr-2" />
+                <Lock className="w-4 h-4 mr-2" aria-hidden="true" />
                 <span>Secure payment via Razorpay</span>
               </div>
             </form>
           </Card>
 
           <div>
-            <Card className="p-6 md:p-8">
+            <Card className="p-6 md:p-8 animate-fade-up stagger-3">
               <div className="flex items-center space-x-2 mb-4">
-                <ShoppingCart className="w-6 h-6 text-primary-accent" />
-                <h2 className="text-2xl font-bold text-primary-navy">Order Summary</h2>
+                <ShoppingCart className="w-6 h-6 text-primary-accent" aria-hidden="true" />
+                <h2 className="text-2xl md:text-3xl font-bold text-primary-navy">Order Summary</h2>
               </div>
 
               <div className="border-t border-gray-200 pt-4">

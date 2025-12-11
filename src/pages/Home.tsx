@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { BookOpen, Brain, TrendingUp, Shield, Calculator, Beaker, Globe2, BookText } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { env } from '../lib/env';
 
@@ -38,11 +38,42 @@ export function Home() {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errors, setErrors] = useState<{ name?: string; email?: string }>({});
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    setVisible(true);
+  }, []);
+
+  const validateForm = () => {
+    const newErrors: { name?: string; email?: string } = {};
+
+    if (!name.trim()) {
+      newErrors.name = 'Name is required';
+    } else if (name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters';
+    }
+
+    if (!email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleLeadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    setErrors({});
     setSubmitStatus('idle');
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
 
     try {
       const { error } = await supabase
@@ -80,19 +111,19 @@ export function Home() {
   };
 
   return (
-    <div>
+    <div id="main-content">
       <section className="bg-gradient-to-b from-primary-light to-white py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-primary-navy mb-6 leading-relaxed-heading">
+          <h1 className={`text-3xl md:text-5xl font-bold text-primary-navy mb-6 leading-relaxed-heading ${visible ? 'animate-fade-up' : ''}`}>
             CBSE Class 10 Exam Preparation – Simple, Affordable & Effective
           </h1>
-          <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-3xl mx-auto leading-relaxed-body">
+          <p className={`text-lg md:text-xl text-gray-700 mb-8 max-w-3xl mx-auto leading-relaxed-body ${visible ? 'animate-fade-up stagger-2' : ''}`}>
             Subject-wise exam preparation packs and AI prompt packs for Mathematics, Science, Social Science and English.
             No expensive coaching – just clear, structured preparation systems.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className={`flex flex-col sm:flex-row gap-4 justify-center ${visible ? 'animate-fade-up stagger-3' : ''}`}>
             <Link to="/exam-preparation">
-              <Button size="lg">Explore Exam Packs</Button>
+              <Button size="lg" className="animate-bounce-subtle">Explore Exam Packs</Button>
             </Link>
             <Link to="/prompts">
               <Button size="lg" variant="secondary">View Prompt Packs</Button>
@@ -106,14 +137,14 @@ export function Home() {
           Choose Your Subject
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {subjects.map((subject) => {
+          {subjects.map((subject, index) => {
             const Icon = subject.icon;
             return (
               <Link key={subject.name} to={subject.link}>
-                <Card className="p-6 h-full hover:border-2 hover:border-primary-accent transition-all cursor-pointer">
+                <Card hover className={`p-6 h-full border-2 border-transparent hover:border-primary-accent ${visible ? `animate-fade-up stagger-${(index % 4) + 1}` : ''}`}>
                   <div className="flex flex-col items-center text-center space-y-4">
-                    <div className="w-16 h-16 bg-primary-light rounded-full flex items-center justify-center">
-                      <Icon className="w-8 h-8 text-primary-accent" />
+                    <div className="w-16 h-16 bg-primary-light rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                      <Icon className="w-8 h-8 text-primary-accent" aria-hidden="true" />
                     </div>
                     <h3 className="text-xl font-semibold text-primary-navy">{subject.name}</h3>
                     <p className="text-base text-gray-600 leading-relaxed-body">{subject.description}</p>
@@ -182,34 +213,71 @@ export function Home() {
           </div>
 
           {submitStatus === 'success' ? (
-            <div className="bg-green-50 border-2 border-green-500 rounded-lg p-6 text-center">
+            <div className="bg-green-50 border-2 border-green-500 rounded-lg p-6 text-center animate-fade-in">
               <p className="text-lg text-green-700 font-medium">
                 Thank you! Check your email for the free resources.
               </p>
             </div>
           ) : (
             <form onSubmit={handleLeadSubmit} className="space-y-4">
-              <input
-                type="text"
-                placeholder="Your Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-accent focus:border-primary-accent"
-              />
-              <input
-                type="email"
-                placeholder="Your Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-accent focus:border-primary-accent"
-              />
-              <Button type="submit" fullWidth disabled={isSubmitting}>
-                {isSubmitting ? 'Sending...' : 'Get Free Resources'}
+              <div>
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    if (errors.name) setErrors({ ...errors, name: undefined });
+                  }}
+                  aria-label="Your Name"
+                  aria-invalid={!!errors.name}
+                  aria-describedby={errors.name ? 'name-error' : undefined}
+                  className={`w-full px-4 py-3 text-base border-2 rounded-lg transition-all ${
+                    errors.name
+                      ? 'border-red-500 focus:border-red-500 focus:ring-red-200'
+                      : 'border-gray-300 focus:border-primary-accent focus:ring-blue-200'
+                  }`}
+                />
+                {errors.name && (
+                  <p id="name-error" className="text-sm text-red-600 mt-1">
+                    {errors.name}
+                  </p>
+                )}
+              </div>
+              <div>
+                <input
+                  type="email"
+                  placeholder="Your Email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (errors.email) setErrors({ ...errors, email: undefined });
+                  }}
+                  aria-label="Your Email"
+                  aria-invalid={!!errors.email}
+                  aria-describedby={errors.email ? 'email-error' : undefined}
+                  className={`w-full px-4 py-3 text-base border-2 rounded-lg transition-all ${
+                    errors.email
+                      ? 'border-red-500 focus:border-red-500 focus:ring-red-200'
+                      : 'border-gray-300 focus:border-primary-accent focus:ring-blue-200'
+                  }`}
+                />
+                {errors.email && (
+                  <p id="email-error" className="text-sm text-red-600 mt-1">
+                    {errors.email}
+                  </p>
+                )}
+              </div>
+              <Button
+                type="submit"
+                fullWidth
+                loading={isSubmitting}
+                success={submitStatus === 'success'}
+              >
+                Get Free Resources
               </Button>
               {submitStatus === 'error' && (
-                <p className="text-sm text-red-600 text-center">
+                <p className="text-sm text-red-600 text-center" role="alert">
                   Something went wrong. Please try again.
                 </p>
               )}

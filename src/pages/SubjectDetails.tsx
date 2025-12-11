@@ -30,6 +30,7 @@ export function SubjectDetails() {
   const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -50,6 +51,7 @@ export function SubjectDetails() {
 
       if (!error && data) {
         setProducts(data);
+        setTimeout(() => setVisible(true), 100);
       }
       setLoading(false);
     }
@@ -73,17 +75,21 @@ export function SubjectDetails() {
   }
 
   return (
-    <div>
+    <div id="main-content">
       <section className="bg-gradient-to-b from-primary-light to-white py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link to="/exam-preparation" className="inline-flex items-center text-primary-accent hover:text-primary-blue mb-6">
-            <ArrowLeft className="w-5 h-5 mr-2" />
+          <Link
+            to="/exam-preparation"
+            className="inline-flex items-center text-primary-accent hover:text-primary-blue mb-6 transition-all hover:scale-105 min-h-[44px]"
+            aria-label="Back to All Subjects"
+          >
+            <ArrowLeft className="w-5 h-5 mr-2" aria-hidden="true" />
             Back to All Subjects
           </Link>
-          <h1 className="text-3xl md:text-4xl font-bold text-primary-navy mb-4 leading-relaxed-heading">
+          <h1 className="text-3xl md:text-5xl font-bold text-primary-navy mb-4 leading-relaxed-heading animate-fade-up">
             {subjectNames[subject.toLowerCase()]} Exam Preparation
           </h1>
-          <p className="text-lg text-gray-700 leading-relaxed-body max-w-3xl">
+          <p className="text-lg text-gray-700 leading-relaxed-body max-w-3xl animate-fade-up stagger-2">
             Choose the exam preparation pack that matches your exam goals. All packs include structured study materials,
             practice questions, and exam strategies.
           </p>
@@ -101,17 +107,22 @@ export function SubjectDetails() {
           </div>
         ) : (
           <>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 w-full md:w-auto">
             {products.map((product, index) => (
-              <Card key={product.id} className={`p-6 flex flex-col ${index === 1 ? 'border-2 border-primary-accent' : ''}`}>
+              <Card
+                key={product.id}
+                className={`p-6 md:p-8 flex flex-col w-full md:w-auto ${
+                  index === 1 ? 'border-2 border-primary-accent shadow-lg' : ''
+                } ${visible ? `animate-fade-up stagger-${index + 1}` : ''}`}
+              >
                 {index === 1 && (
-                  <Badge className="self-start mb-4">Most Popular</Badge>
+                  <Badge className="self-start mb-4 animate-bounce-subtle">Most Popular</Badge>
                 )}
                 {index === 2 && (
                   <Badge variant="success" className="self-start mb-4">Best Value</Badge>
                 )}
-                <h3 className="text-2xl font-bold text-primary-navy mb-2">{product.pack_type}</h3>
-                <p className="text-sm text-gray-600 mb-4 leading-relaxed-body">{product.description}</p>
+                <h3 className="text-2xl md:text-3xl font-bold text-primary-navy mb-2">{product.pack_type}</h3>
+                <p className="text-sm md:text-base text-gray-600 mb-4 leading-relaxed-body">{product.description}</p>
                 <div className="mb-4">
                   {product.original_price && (
                     <div className="text-base text-gray-500 line-through mb-1">
@@ -119,7 +130,7 @@ export function SubjectDetails() {
                     </div>
                   )}
                   <div>
-                    <span className="text-3xl font-bold text-primary-navy">₹{product.price}</span>
+                    <span className="text-3xl md:text-4xl font-bold text-primary-navy">₹{product.price}</span>
                     <span className="text-base text-gray-600"> one-time</span>
                   </div>
                 </div>
@@ -128,8 +139,8 @@ export function SubjectDetails() {
                 )}
                 <ul className="space-y-3 mb-8 flex-grow">
                   {product.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start text-sm text-gray-700">
-                      <Check className="w-5 h-5 text-primary-accent mr-2 flex-shrink-0" />
+                    <li key={idx} className="flex items-start text-sm md:text-base text-gray-700">
+                      <Check className="w-5 h-5 text-primary-accent mr-2 flex-shrink-0" aria-hidden="true" />
                       <span>{feature}</span>
                     </li>
                   ))}

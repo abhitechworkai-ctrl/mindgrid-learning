@@ -3,92 +3,127 @@ import { BookOpen, Mail, Phone } from 'lucide-react';
 
 export function Footer() {
   return (
-    <footer className="bg-primary-navy text-white mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="bg-primary-navy text-white mt-16 md:mt-24" role="contentinfo">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <BookOpen className="w-6 h-6 text-primary-accent" />
+              <BookOpen className="w-6 h-6 text-primary-accent" aria-hidden="true" />
               <div className="flex flex-col">
                 <span className="text-lg font-bold leading-tight">MindGrid Learning</span>
                 <span className="text-xs text-gray-400">Solutions</span>
               </div>
             </div>
-            <p className="text-gray-300 text-base leading-relaxed">
+            <p className="text-gray-300 text-base leading-relaxed-body">
               Simple, affordable, and effective exam preparation for CBSE Class 10 students.
             </p>
           </div>
 
           <div>
             <h3 className="font-semibold text-lg mb-4">Products</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/exam-preparation" className="text-gray-300 hover:text-primary-accent transition-colors">
-                  Exam Preparation Packs
-                </Link>
-              </li>
-              <li>
-                <Link to="/prompts" className="text-gray-300 hover:text-primary-accent transition-colors">
-                  AI Prompt Packs
-                </Link>
-              </li>
-              <li>
-                <Link to="/free-resources" className="text-gray-300 hover:text-primary-accent transition-colors">
-                  Free Resources
-                </Link>
-              </li>
-            </ul>
+            <nav aria-label="Products">
+              <ul className="space-y-3">
+                <li>
+                  <Link
+                    to="/exam-preparation"
+                    className="text-gray-300 hover:text-primary-accent transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
+                  >
+                    Exam Preparation Packs
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/prompts"
+                    className="text-gray-300 hover:text-primary-accent transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
+                  >
+                    AI Prompt Packs
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/free-resources"
+                    className="text-gray-300 hover:text-primary-accent transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
+                  >
+                    Free Resources
+                  </Link>
+                </li>
+              </ul>
+            </nav>
           </div>
 
           <div>
             <h3 className="font-semibold text-lg mb-4">Support</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/contact" className="text-gray-300 hover:text-primary-accent transition-colors">
-                  Contact Us
-                </Link>
-              </li>
-              <li>
-                <Link to="/refund-policy" className="text-gray-300 hover:text-primary-accent transition-colors">
-                  Refund Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacy-policy" className="text-gray-300 hover:text-primary-accent transition-colors">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms" className="text-gray-300 hover:text-primary-accent transition-colors">
-                  Terms & Conditions
-                </Link>
-              </li>
-            </ul>
+            <nav aria-label="Support">
+              <ul className="space-y-3">
+                <li>
+                  <Link
+                    to="/contact"
+                    className="text-gray-300 hover:text-primary-accent transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
+                  >
+                    Contact Us
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/refund-policy"
+                    className="text-gray-300 hover:text-primary-accent transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
+                  >
+                    Refund Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/privacy-policy"
+                    className="text-gray-300 hover:text-primary-accent transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
+                  >
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/terms"
+                    className="text-gray-300 hover:text-primary-accent transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
+                  >
+                    Terms & Conditions
+                  </Link>
+                </li>
+              </ul>
+            </nav>
           </div>
 
           <div>
             <h3 className="font-semibold text-lg mb-4">Contact</h3>
-            <ul className="space-y-3">
-              <li className="flex items-center space-x-2 text-gray-300">
-                <Mail className="w-5 h-5" />
-                <span>support@mindgridlearning.com</span>
+            <ul className="space-y-4">
+              <li className="flex items-center space-x-3 text-gray-300">
+                <Mail className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
+                <a
+                  href="mailto:support@mindgridlearning.com"
+                  className="hover:text-primary-accent transition-colors duration-200"
+                >
+                  support@mindgridlearning.com
+                </a>
               </li>
-              <li className="flex items-center space-x-2 text-gray-300">
-                <Phone className="w-5 h-5" />
-                <span>+91 9895626732</span>
+              <li className="flex items-center space-x-3 text-gray-300">
+                <Phone className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
+                <a
+                  href="tel:+919895626732"
+                  className="hover:text-primary-accent transition-colors duration-200"
+                >
+                  +91 9895626732
+                </a>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-gray-700 mt-8 pt-8 text-center">
-          <p className="text-gray-400 text-base">
+        <div className="border-t border-gray-700 mt-12 pt-8 text-center space-y-4">
+          <p className="text-gray-400 text-base leading-relaxed-body max-w-2xl mx-auto">
             No expensive coaching. One-time affordable packs designed for CBSE Board students.
           </p>
-          <p className="text-gray-500 text-sm mt-4">
+          <p className="text-gray-500 text-sm">
             &copy; {new Date().getFullYear()} MindGrid Learning Solutions. All rights reserved.
           </p>
-          <p className="text-gray-500 text-sm mt-2">
+          <p className="text-gray-500 text-sm">
             www.mindgridlearning.com
           </p>
         </div>
