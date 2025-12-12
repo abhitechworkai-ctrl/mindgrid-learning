@@ -213,6 +213,10 @@ The system includes webhook support for Make.com or other automation platforms.
 When a payment is verified, the system sends order details to:
 - `MAKE_ORDER_WEBHOOK_URL` (if configured)
 
+To disable webhooks, set the environment variable to:
+- Empty string (leave it blank)
+- The value `DISABLED` (case-insensitive)
+
 Webhook payload:
 ```json
 {

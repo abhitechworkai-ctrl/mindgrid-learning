@@ -114,7 +114,7 @@ Deno.serve(async (req: Request) => {
     }
 
     const webhookUrl = Deno.env.get("MAKE_ORDER_WEBHOOK_URL");
-    if (webhookUrl) {
+    if (webhookUrl && webhookUrl.trim() !== "" && webhookUrl.toUpperCase() !== "DISABLED") {
       try {
         await fetch(webhookUrl, {
           method: "POST",
