@@ -26,16 +26,17 @@ Two edge functions have been deployed to handle secure payment operations:
 Add the following to your `.env` file:
 
 ```env
-# Razorpay Credentials
+# Razorpay Credentials (Client-Side - Only Key ID, NEVER the secret!)
 VITE_RAZORPAY_KEY_ID=rzp_live_your_key_id
-VITE_RAZORPAY_KEY_SECRET=your_key_secret
 ```
+
+**IMPORTANT SECURITY NOTE:** NEVER add `VITE_RAZORPAY_KEY_SECRET` to your `.env` file. The secret key should ONLY exist in Supabase Edge Functions secrets (server-side).
 
 ### 2. Supabase Edge Function Secrets
 
-The edge functions automatically access these environment variables:
-- `RAZORPAY_KEY_ID` - Your Razorpay Key ID
-- `RAZORPAY_KEY_SECRET` - Your Razorpay Key Secret (server-side only)
+Configure these secrets in your Supabase project dashboard (Settings > Edge Functions > Secrets):
+- `RAZORPAY_KEY_ID` - Your Razorpay Key ID (same as above)
+- `RAZORPAY_KEY_SECRET` - Your Razorpay Key Secret (server-side only, NEVER exposed to client)
 - `SUPABASE_URL` - Auto-configured
 - `SUPABASE_SERVICE_ROLE_KEY` - Auto-configured
 - `MAKE_ORDER_WEBHOOK_URL` - Optional webhook for order notifications
@@ -183,11 +184,11 @@ Verifies payment signature and updates order status.
 
 ### Test Mode
 
-1. Set test keys in `.env`:
-   ```env
-   VITE_RAZORPAY_KEY_ID=rzp_test_your_key_id
-   VITE_RAZORPAY_KEY_SECRET=your_test_secret
-   ```
+1. Set test keys:
+   - In `.env`: `VITE_RAZORPAY_KEY_ID=rzp_test_your_key_id`
+   - In Supabase Edge Functions secrets:
+     - `RAZORPAY_KEY_ID=rzp_test_your_key_id`
+     - `RAZORPAY_KEY_SECRET=your_test_secret`
 
 2. Use test card details:
    - Card: 4111 1111 1111 1111
@@ -290,8 +291,8 @@ For application issues:
 ### Modified Files
 - `src/pages/Checkout.tsx` - Updated to use backend API
 - `src/App.tsx` - Added /failed route
-- `src/lib/env.ts` - Added Razorpay key secret
-- `.env` - Added VITE_RAZORPAY_KEY_SECRET
+- `src/lib/env.ts` - Added Razorpay key ID (client-side only)
+- `.env` - Added VITE_RAZORPAY_KEY_ID (secret key removed for security)
 
 ## Next Steps
 

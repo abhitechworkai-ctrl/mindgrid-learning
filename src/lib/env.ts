@@ -9,7 +9,6 @@ export const env = {
   },
   razorpay: {
     keyId: import.meta.env.VITE_RAZORPAY_KEY_ID,
-    keySecret: import.meta.env.VITE_RAZORPAY_KEY_SECRET,
   },
 };
 
