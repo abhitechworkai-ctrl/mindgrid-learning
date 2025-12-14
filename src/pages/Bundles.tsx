@@ -8,39 +8,48 @@ import { useState, useEffect } from 'react';
 const bundleConcepts = [
   {
     title: 'Complete Subject Package',
-    description: 'AI Prompts + Exam Prep for one subject',
-    savings: 'Save 15%',
+    subtitle: 'AI Prompt Pack + Ultimate Exam Prep for one subject',
+    price: 699,
+    originalPrice: 798,
+    savings: 'Save ₹99 (15%)',
     icon: CheckCircle,
     details: [
-      'Full Exam Prep Package for any subject',
+      'Ultimate Exam Prep Package for any subject',
       'Subject-specific AI Prompt Package',
       'Complete chapter coverage',
       'Practice questions + Smart prompts',
+      'Lifetime access included',
     ],
   },
   {
     title: 'STEM Mastery Bundle',
-    description: 'Math + Science complete preparation',
-    savings: 'Save 25%',
+    subtitle: 'Math + Science — Exam Prep + AI Prompt Packs',
+    price: 1199,
+    originalPrice: 1596,
+    savings: 'Save ₹397 (25%)',
     icon: Calculator,
     details: [
-      'Mathematics Exam Prep Package',
-      'Science Exam Prep Package',
-      'Both AI Prompt Packages',
+      'Mathematics Ultimate Exam Prep Package',
+      'Science Ultimate Exam Prep Package',
+      'Both AI Prompt Packages included',
       'Perfect for science stream focus',
+      'Lifetime access included',
     ],
     popular: true,
   },
   {
     title: 'All-Subject Complete',
-    description: 'Everything for all four subjects',
-    savings: 'Save 30%',
+    subtitle: 'All 4 subjects — Complete CBSE Class 10 preparation',
+    price: 2199,
+    originalPrice: 3192,
+    savings: 'Save ₹993 (30%)',
     icon: Package,
     details: [
-      'All four subject Exam Prep Packages',
-      'All four AI Prompt Packages',
+      'All four subject Ultimate Exam Prep Packages',
+      'All four AI Prompt Packages included',
       'Complete CBSE Class 10 coverage',
       'Maximum preparation, maximum confidence',
+      'Lifetime access included',
     ],
     bestValue: true,
   },
@@ -113,13 +122,21 @@ export function Bundles() {
                   <Icon className="w-8 h-8 text-orange-600" aria-hidden="true" />
                 </div>
                 <h3 className="text-2xl font-bold text-primary-navy mb-2">{bundle.title}</h3>
-                <p className="text-base text-gray-600 mb-4 leading-relaxed-body">{bundle.description}</p>
+                <p className="text-sm text-gray-600 mb-4 leading-relaxed-body">{bundle.subtitle}</p>
+                <div className="mb-4">
+                  <div className="text-base text-gray-500 line-through mb-1">
+                    ₹{bundle.originalPrice}
+                  </div>
+                  <div>
+                    <span className="text-3xl md:text-4xl font-bold text-primary-navy">₹{bundle.price}</span>
+                  </div>
+                </div>
                 <div className="mb-6">
-                  <Badge variant="success" className="text-base">{bundle.savings}</Badge>
+                  <Badge variant="success" className="text-sm">{bundle.savings}</Badge>
                 </div>
                 <ul className="space-y-3 mb-8 flex-grow">
                   {bundle.details.map((detail, idx) => (
-                    <li key={idx} className="flex items-start text-base text-gray-700">
+                    <li key={idx} className="flex items-start text-sm text-gray-700">
                       <CheckCircle className="w-5 h-5 text-primary-accent mr-2 flex-shrink-0 mt-0.5" aria-hidden="true" />
                       <span>{detail}</span>
                     </li>
@@ -128,6 +145,11 @@ export function Bundles() {
               </Card>
             );
           })}
+        </div>
+        <div className="text-center mt-8">
+          <p className="text-sm text-gray-600 leading-relaxed-body max-w-2xl mx-auto">
+            <strong>Note:</strong> Bundles are informational. Purchase subjects individually to build your bundle. Lifetime access included.
+          </p>
         </div>
       </section>
 
@@ -138,46 +160,46 @@ export function Bundles() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card className="p-8">
-              <h3 className="text-xl font-bold text-primary-navy mb-4">Example: Mathematics Complete Package</h3>
+              <h3 className="text-xl font-bold text-primary-navy mb-4">Complete Subject Package</h3>
               <div className="space-y-3 text-base text-gray-700">
                 <div className="flex justify-between items-center pb-2 border-b border-gray-200">
-                  <span>Mathematics Exam Prep Package</span>
-                  <span className="font-semibold">₹299</span>
+                  <span>Ultimate Exam Prep (any subject)</span>
+                  <span className="font-semibold">₹399</span>
                 </div>
                 <div className="flex justify-between items-center pb-2 border-b border-gray-200">
-                  <span>Mathematics AI Prompt Package</span>
-                  <span className="font-semibold">₹199</span>
+                  <span>AI Prompt Package (same subject)</span>
+                  <span className="font-semibold">₹399</span>
                 </div>
                 <div className="flex justify-between items-center pt-2">
                   <span className="font-bold">Bundle Price</span>
                   <div className="text-right">
-                    <div className="line-through text-gray-500">₹498</div>
-                    <div className="font-bold text-green-600 text-xl">₹423</div>
+                    <div className="line-through text-gray-500 text-base">₹798</div>
+                    <div className="font-bold text-green-600 text-2xl">₹699</div>
                   </div>
                 </div>
               </div>
-              <p className="text-sm text-gray-600 mt-4 italic">Save ₹75 with the Complete Subject Package</p>
+              <p className="text-sm text-gray-600 mt-4 italic">Save ₹99 (15%) with the Complete Subject Package</p>
             </Card>
             <Card className="p-8 border-2 border-green-500">
-              <h3 className="text-xl font-bold text-primary-navy mb-4">Example: All-Subject Complete Bundle</h3>
+              <h3 className="text-xl font-bold text-primary-navy mb-4">All-Subject Complete Bundle</h3>
               <div className="space-y-3 text-base text-gray-700">
                 <div className="flex justify-between items-center pb-2 border-b border-gray-200">
-                  <span>Four Exam Prep Packages</span>
-                  <span className="font-semibold">₹1,196</span>
+                  <span>Four Ultimate Exam Prep Packages</span>
+                  <span className="font-semibold">₹1,596</span>
                 </div>
                 <div className="flex justify-between items-center pb-2 border-b border-gray-200">
                   <span>Four AI Prompt Packages</span>
-                  <span className="font-semibold">₹796</span>
+                  <span className="font-semibold">₹1,596</span>
                 </div>
                 <div className="flex justify-between items-center pt-2">
                   <span className="font-bold">Bundle Price</span>
                   <div className="text-right">
-                    <div className="line-through text-gray-500">₹1,992</div>
-                    <div className="font-bold text-green-600 text-xl">₹1,394</div>
+                    <div className="line-through text-gray-500 text-base">₹3,192</div>
+                    <div className="font-bold text-green-600 text-2xl">₹2,199</div>
                   </div>
                 </div>
               </div>
-              <p className="text-sm text-gray-600 mt-4 italic">Save ₹598 with the All-Subject Complete Bundle</p>
+              <p className="text-sm text-gray-600 mt-4 italic">Save ₹993 (30%) with the All-Subject Complete Bundle</p>
             </Card>
           </div>
         </div>
