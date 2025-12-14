@@ -231,15 +231,11 @@ export function ExamPrepPack() {
               Want to Add AI-Powered Study Support?
             </h2>
             <p className="text-lg text-gray-700 leading-relaxed-body mb-6 max-w-2xl mx-auto">
-              Combine Exam Prep Packages with AI Prompt Packages for comprehensive preparation.
-              Or explore our bundle options to save more.
+              Combine Exam Prep Packages with AI Prompt Packages for comprehensive preparation across all subjects.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex justify-center">
               <Link to="/ai-prompt-pack">
                 <Button size="lg">View AI Prompt Package</Button>
-              </Link>
-              <Link to="/bundles">
-                <Button size="lg" variant="secondary">Explore Bundle Options</Button>
               </Link>
             </div>
           </div>

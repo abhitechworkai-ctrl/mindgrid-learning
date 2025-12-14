@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { BookOpen, Brain, TrendingUp, Shield, Calculator, Beaker, Globe2, BookText, Package, Sparkles } from 'lucide-react';
+import { BookOpen, Brain, TrendingUp, Shield, Calculator, Beaker, Globe2, BookText } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { useState, useEffect } from 'react';
@@ -168,31 +168,6 @@ export function Home() {
               </Link>
             </div>
           </Card>
-        </div>
-      </section>
-
-      <section className="bg-gradient-to-r from-orange-50 to-yellow-50 py-12">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
-                <Package className="w-8 h-8 text-white" aria-hidden="true" />
-              </div>
-              <div>
-                <h3 className="text-xl md:text-2xl font-bold text-primary-navy mb-1">
-                  Save More with Bundles
-                </h3>
-                <p className="text-base text-gray-700 leading-relaxed-body">
-                  Combine subjects and preparation types for maximum savings
-                </p>
-              </div>
-            </div>
-            <Link to="/bundles">
-              <Button size="lg" className="whitespace-nowrap">
-                View Bundle Options
-              </Button>
-            </Link>
-          </div>
         </div>
       </section>
 

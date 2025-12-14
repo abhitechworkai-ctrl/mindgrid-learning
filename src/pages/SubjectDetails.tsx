@@ -160,21 +160,6 @@ export function SubjectDetails() {
                 >
                   Get Started
                 </Button>
-                {index === 2 && (
-                  <div className="mt-4 pt-4 border-t border-gray-200">
-                    <div className="bg-blue-50 p-3 rounded-lg mb-3">
-                      <p className="text-xs text-primary-navy font-semibold">
-                        Bundle Tip: Add the AI Prompt Pack for this subject to complete your preparation bundle.
-                      </p>
-                    </div>
-                    <Link
-                      to={`/prompts?subject=${subject}`}
-                      className="text-sm text-primary-accent hover:text-primary-blue underline block text-center"
-                    >
-                      Add AI Prompt Pack for this subject
-                    </Link>
-                  </div>
-                )}
               </Card>
             ))}
           </div>
@@ -188,35 +173,20 @@ export function SubjectDetails() {
       </section>
 
       <section className="bg-primary-light py-12 md:py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="p-6">
-              <h3 className="text-xl font-bold text-primary-navy mb-3 text-center">
-                Free AI Prompt Pack with Ultimate
-              </h3>
-              <p className="text-base text-gray-700 leading-relaxed-body text-center mb-4">
-                Purchase the Ultimate Pack and get a subject-specific AI Prompt Package absolutely free.
-              </p>
-              <div className="text-center">
-                <Link to="/prompts">
-                  <Button variant="secondary" size="sm">Learn About Prompt Packs</Button>
-                </Link>
-              </div>
-            </Card>
-            <Card className="p-6 border-2 border-orange-500">
-              <h3 className="text-xl font-bold text-primary-navy mb-3 text-center">
-                Save More with Bundles
-              </h3>
-              <p className="text-base text-gray-700 leading-relaxed-body text-center mb-4">
-                Need multiple subjects? Check out our bundle options for maximum savings.
-              </p>
-              <div className="text-center">
-                <Link to="/bundles">
-                  <Button size="sm">View Bundle Options</Button>
-                </Link>
-              </div>
-            </Card>
-          </div>
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Card className="p-8">
+            <h3 className="text-xl font-bold text-primary-navy mb-3 text-center">
+              Free AI Prompt Pack with Ultimate
+            </h3>
+            <p className="text-base text-gray-700 leading-relaxed-body text-center mb-4">
+              Purchase the Ultimate Pack and get a subject-specific AI Prompt Package absolutely free.
+            </p>
+            <div className="text-center">
+              <Link to="/prompts">
+                <Button variant="secondary" size="sm">Learn About Prompt Packs</Button>
+              </Link>
+            </div>
+          </Card>
         </div>
       </section>
 

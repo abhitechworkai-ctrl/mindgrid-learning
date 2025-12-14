@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Brain, Shield, CheckCircle, Calculator, Beaker, Globe2, BookText, Info } from 'lucide-react';
+import { Brain, Shield, CheckCircle, Calculator, Beaker, Globe2, BookText } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
@@ -133,22 +133,6 @@ export function Prompts() {
               </div>
             </div>
           </Card>
-
-          {selectedSubject !== 'All' && (
-            <div className="bg-blue-50 border-l-4 border-primary-accent p-6 mb-8 rounded-r-lg">
-              <div className="flex items-start gap-3">
-                <Info className="w-6 h-6 text-primary-accent flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-base font-semibold text-primary-navy mb-1">
-                    Already purchased the Exam Prep Pack for this subject?
-                  </p>
-                  <p className="text-sm text-gray-700">
-                    Add this AI Prompt Pack to complete your bundle.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
 
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-primary-navy mb-6 text-center">
