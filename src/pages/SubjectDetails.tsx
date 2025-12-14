@@ -160,6 +160,21 @@ export function SubjectDetails() {
                 >
                   Get Started
                 </Button>
+                {index === 2 && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <div className="bg-blue-50 p-3 rounded-lg mb-3">
+                      <p className="text-xs text-primary-navy font-semibold">
+                        Bundle Tip: Add the AI Prompt Pack for this subject to complete your preparation bundle.
+                      </p>
+                    </div>
+                    <Link
+                      to={`/prompts?subject=${subject}`}
+                      className="text-sm text-primary-accent hover:text-primary-blue underline block text-center"
+                    >
+                      Add AI Prompt Pack for this subject
+                    </Link>
+                  </div>
+                )}
               </Card>
             ))}
           </div>

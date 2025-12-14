@@ -131,9 +131,12 @@ export function Bundles() {
                     <span className="text-3xl md:text-4xl font-bold text-primary-navy">₹{bundle.price}</span>
                   </div>
                 </div>
-                <div className="mb-6">
+                <div className="mb-4">
                   <Badge variant="success" className="text-sm">{bundle.savings}</Badge>
                 </div>
+                <p className="text-xs text-gray-500 italic mb-6">
+                  Bundle price shown for value comparison. Purchase items individually to build your bundle.
+                </p>
                 <ul className="space-y-3 mb-8 flex-grow">
                   {bundle.details.map((detail, idx) => (
                     <li key={idx} className="flex items-start text-sm text-gray-700">
@@ -142,15 +145,62 @@ export function Bundles() {
                     </li>
                   ))}
                 </ul>
+                <Link to="/exam-preparation" className="mt-auto">
+                  <Button size="lg" className="w-full">Build This Bundle</Button>
+                </Link>
               </Card>
             );
           })}
         </div>
-        <div className="text-center mt-8">
-          <p className="text-sm text-gray-600 leading-relaxed-body max-w-2xl mx-auto">
-            <strong>Note:</strong> Bundles are informational. Purchase subjects individually to build your bundle. Lifetime access included.
-          </p>
-        </div>
+
+        <Card className="mt-12 p-8 bg-blue-50 border-2 border-blue-300 max-w-4xl mx-auto">
+          <h3 className="text-xl md:text-2xl font-bold text-primary-navy mb-6 text-center">
+            How to Purchase This Bundle
+          </h3>
+          <div className="space-y-4 text-base text-gray-700">
+            <div className="flex items-start gap-4">
+              <div className="w-8 h-8 bg-primary-accent text-white rounded-full flex items-center justify-center flex-shrink-0 font-bold">
+                1
+              </div>
+              <div>
+                <p className="font-semibold text-primary-navy">Choose your subject</p>
+                <p className="text-sm text-gray-600">Select the subject you want to prepare for</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="w-8 h-8 bg-primary-accent text-white rounded-full flex items-center justify-center flex-shrink-0 font-bold">
+                2
+              </div>
+              <div>
+                <p className="font-semibold text-primary-navy">Purchase the Exam Prep Pack for that subject</p>
+                <p className="text-sm text-gray-600">Get comprehensive exam preparation materials</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="w-8 h-8 bg-primary-accent text-white rounded-full flex items-center justify-center flex-shrink-0 font-bold">
+                3
+              </div>
+              <div>
+                <p className="font-semibold text-primary-navy">Add the AI Prompt Pack for the same subject</p>
+                <p className="text-sm text-gray-600">Enhance learning with AI-powered prompts</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center flex-shrink-0">
+                <CheckCircle className="w-5 h-5" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="font-semibold text-green-700">Result: You get the complete bundle value with lifetime access</p>
+                <p className="text-sm text-gray-600">Bundle savings applied automatically</p>
+              </div>
+            </div>
+          </div>
+          <div className="text-center mt-6">
+            <Link to="/exam-preparation">
+              <Button size="lg">Start Building Your Bundle</Button>
+            </Link>
+          </div>
+        </Card>
       </section>
 
       <section className="bg-blue-50 py-16">
@@ -299,7 +349,7 @@ export function Bundles() {
           </div>
           <div className="text-center mt-8">
             <Link to="/exam-preparation">
-              <Button size="lg">Get Started Now</Button>
+              <Button size="lg">Build Your Bundle</Button>
             </Link>
           </div>
         </Card>
