@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Brain, Shield, BookOpen, CheckCircle, Sparkles, Target, Calculator, Beaker, Globe2, BookText } from 'lucide-react';
+import { Brain, Shield, BookOpen, CheckCircle, Sparkles, Target, Calculator, Beaker, Globe2, BookText, Package } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { useState, useEffect } from 'react';
