@@ -61,6 +61,13 @@ export function Header() {
               Prompt Packs
             </Link>
             <Link
+              to="/bundles"
+              className="text-base font-semibold text-primary-navy hover:text-[#1A73E8] transition-all duration-[180ms] ease-out hover:-translate-y-[1px] min-h-[44px] flex items-center"
+              style={{ letterSpacing: '0.2px' }}
+            >
+              Bundles
+            </Link>
+            <Link
               to="/free-resources"
               className="text-base font-semibold text-primary-navy hover:text-[#1A73E8] transition-all duration-[180ms] ease-out hover:-translate-y-[1px] min-h-[44px] flex items-center"
               style={{ letterSpacing: '0.2px' }}
@@ -108,6 +115,14 @@ export function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Prompt Packs
+              </Link>
+              <Link
+                to="/bundles"
+                className="text-base font-semibold text-primary-navy hover:text-[#1A73E8] hover:bg-primary-light transition-all duration-[180ms] ease-out py-3 px-4 rounded-md min-h-[48px] flex items-center"
+                style={{ letterSpacing: '0.2px' }}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Bundles
               </Link>
               <Link
                 to="/free-resources"

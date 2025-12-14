@@ -4,6 +4,9 @@ import { Home } from './pages/Home';
 import { ExamPreparation } from './pages/ExamPreparation';
 import { SubjectDetails } from './pages/SubjectDetails';
 import { Prompts } from './pages/Prompts';
+import { AiPromptPack } from './pages/AiPromptPack';
+import { ExamPrepPack } from './pages/ExamPrepPack';
+import { Bundles } from './pages/Bundles';
 import { FreeResources } from './pages/FreeResources';
 import { Checkout } from './pages/Checkout';
 import { Success } from './pages/Success';
@@ -26,6 +29,9 @@ function App() {
           <Route path="/exam-preparation" element={<ExamPreparation />} />
           <Route path="/exam-preparation/:subject" element={<SubjectDetails />} />
           <Route path="/prompts" element={<Prompts />} />
+          <Route path="/ai-prompt-pack" element={<AiPromptPack />} />
+          <Route path="/exam-prep-pack" element={<ExamPrepPack />} />
+          <Route path="/bundles" element={<Bundles />} />
           <Route path="/free-resources" element={<FreeResources />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/success" element={<Success />} />

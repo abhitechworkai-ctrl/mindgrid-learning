@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { BookOpen, Brain, TrendingUp, Shield, Calculator, Beaker, Globe2, BookText } from 'lucide-react';
+import { BookOpen, Brain, TrendingUp, Shield, Calculator, Beaker, Globe2, BookText, Package, Sparkles } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { useState, useEffect } from 'react';
@@ -118,7 +118,7 @@ export function Home() {
             CBSE Class 10 Exam Preparation – Simple, Affordable & Effective
           </h1>
           <p className={`text-lg md:text-xl text-gray-700 mb-8 max-w-3xl mx-auto leading-relaxed-body ${visible ? 'animate-fade-up stagger-2' : ''}`}>
-            Subject-wise exam preparation packs and AI prompt packs for Mathematics, Science, Social Science and English.
+            Two ways to prepare: AI-powered prompts or complete exam materials. Choose what works for your child.
             No expensive coaching – just clear, structured preparation systems.
           </p>
           <div className={`flex flex-col sm:flex-row gap-4 justify-center ${visible ? 'animate-fade-up stagger-3' : ''}`}>
@@ -127,6 +127,70 @@ export function Home() {
             </Link>
             <Link to="/prompts">
               <Button size="lg" variant="secondary">View Prompt Packs</Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-2xl md:text-3xl font-bold text-primary-navy text-center mb-4">
+          Choose Your Preparation Style
+        </h2>
+        <p className="text-base text-gray-700 text-center mb-12 max-w-2xl mx-auto leading-relaxed-body">
+          Every student learns differently. Pick the approach that matches your child's needs.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <Card hover className="p-8 border-2 border-transparent hover:border-primary-accent">
+            <div className="flex flex-col items-center text-center space-y-4">
+              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                <Brain className="w-10 h-10 text-white" aria-hidden="true" />
+              </div>
+              <h3 className="text-2xl font-bold text-primary-navy">AI Prompt Package</h3>
+              <p className="text-base text-gray-700 leading-relaxed-body">
+                Smart prompts to help students use AI tools effectively for chapter summaries, practice questions, and exam prep.
+              </p>
+              <Link to="/ai-prompt-pack" className="w-full">
+                <Button fullWidth variant="secondary">Learn More</Button>
+              </Link>
+            </div>
+          </Card>
+          <Card hover className="p-8 border-2 border-transparent hover:border-primary-accent">
+            <div className="flex flex-col items-center text-center space-y-4">
+              <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center">
+                <BookOpen className="w-10 h-10 text-white" aria-hidden="true" />
+              </div>
+              <h3 className="text-2xl font-bold text-primary-navy">Exam Prep Package</h3>
+              <p className="text-base text-gray-700 leading-relaxed-body">
+                Complete structured materials: notes, practice questions, exam strategies, and answer-writing guidance.
+              </p>
+              <Link to="/exam-prep-pack" className="w-full">
+                <Button fullWidth>Learn More</Button>
+              </Link>
+            </div>
+          </Card>
+        </div>
+      </section>
+
+      <section className="bg-gradient-to-r from-orange-50 to-yellow-50 py-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <Package className="w-8 h-8 text-white" aria-hidden="true" />
+              </div>
+              <div>
+                <h3 className="text-xl md:text-2xl font-bold text-primary-navy mb-1">
+                  Save More with Bundles
+                </h3>
+                <p className="text-base text-gray-700 leading-relaxed-body">
+                  Combine subjects and preparation types for maximum savings
+                </p>
+              </div>
+            </div>
+            <Link to="/bundles">
+              <Button size="lg" className="whitespace-nowrap">
+                View Bundle Options
+              </Button>
             </Link>
           </div>
         </div>
