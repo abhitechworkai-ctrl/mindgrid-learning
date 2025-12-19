@@ -10,6 +10,11 @@ import { FreeResources } from './pages/FreeResources';
 import { Checkout } from './pages/Checkout';
 import { Success } from './pages/Success';
 import { Failed } from './pages/Failed';
+import { ThankYou } from './pages/ThankYou';
+import { AccessComplete } from './pages/AccessComplete';
+import { AccessUltimate } from './pages/AccessUltimate';
+import { PromptPackThankYou } from './pages/PromptPackThankYou';
+import { PromptPackAccess } from './pages/PromptPackAccess';
 import { Contact } from './pages/Contact';
 import { PrivacyPolicy } from './pages/PrivacyPolicy';
 import { Terms } from './pages/Terms';
@@ -34,6 +39,11 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/success" element={<Success />} />
           <Route path="/failed" element={<Failed />} />
+          <Route path="/thank-you" element={<ThankYou />} />
+          <Route path="/access/:subject/complete" element={<AccessComplete />} />
+          <Route path="/access/:subject/ultimate" element={<AccessUltimate />} />
+          <Route path="/prompt-pack/thank-you" element={<PromptPackThankYou />} />
+          <Route path="/prompt-pack/access" element={<PromptPackAccess />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<Terms />} />

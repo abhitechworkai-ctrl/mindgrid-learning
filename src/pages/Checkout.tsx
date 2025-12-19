@@ -139,20 +139,26 @@ export function Checkout() {
       }
 
       const apiUrl = `${env.supabase.url}/functions/v1/create-order`;
+      const orderPayload: any = {
+        amount: item.price,
+        customerName: name,
+        customerEmail: email,
+        customerPhone: phone || undefined,
+      };
+
+      if (product) {
+        orderPayload.productId = item.id;
+      } else if (promptPack) {
+        orderPayload.promptPackId = item.id;
+      }
+
       const createOrderResponse = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${env.supabase.anonKey}`,
         },
-        body: JSON.stringify({
-          productId: product ? item.id : undefined,
-          promptPackId: promptPack ? item.id : undefined,
-          amount: item.price,
-          customerName: name,
-          customerEmail: email,
-          customerPhone: phone || undefined,
-        }),
+        body: JSON.stringify(orderPayload),
       });
 
       if (!createOrderResponse.ok) {
@@ -192,11 +198,22 @@ export function Checkout() {
             }
 
             const verifyData = await verifyResponse.json();
-            navigate(`/success?order=${verifyData.orderId}`);
+
+            if (promptPack) {
+              navigate('/prompt-pack/thank-you');
+            } else {
+              navigate('/thank-you');
+            }
           } catch (error) {
             console.error('Error verifying payment:', error);
             navigate(`/failed?order=${databaseOrderId}`);
           }
+        },
+        notes: {
+          product_type: promptPack ? 'prompt_pack' : 'exam_pack',
+          pack_type: product?.pack_type || promptPack?.type || '',
+          subject: item.subject || '',
+          pack_name: promptPack?.name || '',
         },
         prefill: {
           name: name,
@@ -367,7 +384,7 @@ export function Checkout() {
             <div className="mt-6 bg-blue-50 border-2 border-primary-accent rounded-lg p-4">
               <p className="text-sm text-gray-700 leading-relaxed-body">
                 <strong>What happens next:</strong> After successful payment, you'll receive an email
-                with download links to your purchased materials within 5 minutes.
+                with your unique access link within 5 minutes. Check your email to download your materials.
               </p>
             </div>
           </div>
