@@ -56,6 +56,7 @@ Deno.serve(async (req: Request) => {
     let productType = "";
     let subject = "";
     let packType = null;
+    let packName = "";
 
     if (productId) {
       const { data, error } = await supabase
@@ -88,6 +89,7 @@ Deno.serve(async (req: Request) => {
       productType = "exam_pack";
       subject = data.subject;
       packType = data.pack_type;
+      packName = data.name;
     } else if (promptPackId) {
       const { data, error } = await supabase
         .from("prompt_packs")
@@ -118,6 +120,8 @@ Deno.serve(async (req: Request) => {
       productData = data;
       productType = "prompt_pack";
       subject = data.subject;
+      packType = data.pack_type || "chapter-wise";
+      packName = data.name;
     } else {
       return new Response(
         JSON.stringify({ error: "Product ID or Prompt Pack ID required" }),
@@ -141,7 +145,9 @@ Deno.serve(async (req: Request) => {
         customer_name: customerName,
         customer_email: customerEmail,
         product_type: productType,
-        subject: subject,
+        subject: subject || "",
+        pack_type: packType || "",
+        pack_name: packName || "",
       },
     });
 
