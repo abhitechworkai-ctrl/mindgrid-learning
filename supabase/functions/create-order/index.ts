@@ -120,7 +120,7 @@ Deno.serve(async (req: Request) => {
       productData = data;
       productType = "prompt_pack";
       subject = data.subject;
-      packType = data.pack_type || "chapter-wise";
+      packType = data.type || "chapter-wise";
       packName = data.name;
     } else {
       return new Response(
