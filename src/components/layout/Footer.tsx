@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { BookOpen, Mail, Phone } from 'lucide-react';
+import { BookOpen, Mail, Phone, Youtube, Facebook, Instagram, Linkedin } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -124,7 +124,58 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-700 mt-12 pt-8 text-center space-y-4">
+        <div className="border-t border-gray-700 mt-12 pt-8 text-center space-y-6">
+          <div className="flex flex-col items-center space-y-4">
+            <p className="text-gray-400 text-sm font-medium">Follow MindGrid Learning</p>
+            <div className="flex items-center justify-center gap-4">
+              <a
+                href="https://www.youtube.com/@MindGridLearningSolutions"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center justify-center w-11 h-11 rounded-full bg-gray-800 hover:bg-primary-accent transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-primary-accent/50"
+                aria-label="Visit our YouTube channel"
+              >
+                <Youtube className="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" />
+              </a>
+
+              <a
+                href="https://www.facebook.com/mindgridlearning/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center justify-center w-11 h-11 rounded-full bg-gray-800 hover:bg-primary-accent transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-primary-accent/50"
+                aria-label="Visit our Facebook page"
+              >
+                <Facebook className="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" />
+              </a>
+
+              <div className="relative group">
+                <div
+                  className="flex items-center justify-center w-11 h-11 rounded-full bg-gray-800/50 cursor-not-allowed opacity-50"
+                  aria-label="Instagram - Coming Soon"
+                >
+                  <Instagram className="w-5 h-5 text-gray-500" />
+                </div>
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                  Coming Soon
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
+                </div>
+              </div>
+
+              <div className="relative group">
+                <div
+                  className="flex items-center justify-center w-11 h-11 rounded-full bg-gray-800/50 cursor-not-allowed opacity-50"
+                  aria-label="LinkedIn - Coming Soon"
+                >
+                  <Linkedin className="w-5 h-5 text-gray-500" />
+                </div>
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                  Coming Soon
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <p className="text-gray-400 text-base leading-relaxed-body max-w-2xl mx-auto">
             No expensive coaching. One-time affordable packs designed for CBSE Board students.
           </p>
