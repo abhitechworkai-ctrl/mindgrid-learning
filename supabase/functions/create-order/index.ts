@@ -15,6 +15,47 @@ interface CreateOrderRequest {
   customerName: string;
   customerEmail: string;
   customerPhone?: string;
+  referral_code?: string;
+}
+
+interface ReferralValidation {
+  valid: boolean;
+  discount: number;
+  error?: string;
+  referrer_email?: string;
+  referrer_name?: string;
+}
+
+async function validateReferralCode(
+  supabaseClient: any,
+  code: string | null | undefined,
+  customerEmail: string
+): Promise<ReferralValidation> {
+  if (!code) {
+    return { valid: false, discount: 0 };
+  }
+
+  const { data: referralData, error } = await supabaseClient
+    .from('referral_codes')
+    .select('*')
+    .eq('referral_code', code)
+    .eq('is_active', true)
+    .maybeSingle();
+
+  if (error || !referralData) {
+    return { valid: false, discount: 0, error: 'Invalid referral code' };
+  }
+
+  if (referralData.customer_email.toLowerCase() === customerEmail.toLowerCase()) {
+    return { valid: false, discount: 0, error: 'Cannot use your own referral code' };
+  }
+
+  return {
+    valid: true,
+    discount: 10,
+    referrer_email: referralData.customer_email,
+    referrer_name: referralData.customer_name
+  };
 }
 
 Deno.serve(async (req: Request) => {
@@ -40,7 +81,7 @@ Deno.serve(async (req: Request) => {
     }
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
-    const { productId, promptPackId, amount, customerName, customerEmail, customerPhone }: CreateOrderRequest = await req.json();
+    const { productId, promptPackId, amount, customerName, customerEmail, customerPhone, referral_code }: CreateOrderRequest = await req.json();
 
     if (!amount || amount <= 0) {
       return new Response(
@@ -132,13 +173,26 @@ Deno.serve(async (req: Request) => {
       );
     }
 
+    let finalAmount = amount;
+    let discountApplied = 0;
+    let referralValidation: ReferralValidation = { valid: false, discount: 0 };
+
+    if (referral_code) {
+      referralValidation = await validateReferralCode(supabase, referral_code, customerEmail);
+
+      if (referralValidation.valid) {
+        discountApplied = Math.round(amount * 0.10);
+        finalAmount = amount - discountApplied;
+      }
+    }
+
     const razorpay = new Razorpay({
       key_id: razorpayKeyId,
       key_secret: razorpayKeySecret,
     });
 
     const razorpayOrder = await razorpay.orders.create({
-      amount: amount * 100,
+      amount: finalAmount * 100,
       currency: "INR",
       receipt: `receipt_${Date.now()}`,
       notes: {
@@ -148,6 +202,10 @@ Deno.serve(async (req: Request) => {
         subject: subject || "",
         pack_type: packType || "",
         pack_name: packName || "",
+        referral_code: referral_code || "",
+        discount_applied: discountApplied.toString(),
+        original_amount: amount.toString(),
+        referred_by: referralValidation.referrer_email || ""
       },
     });
 
@@ -161,7 +219,11 @@ Deno.serve(async (req: Request) => {
         product_id: productId || promptPackId,
         subject: subject,
         pack_type: packType,
-        amount: amount,
+        amount: finalAmount,
+        original_amount: amount,
+        discount_applied: discountApplied,
+        referral_code: referral_code || null,
+        referred_by_email: referralValidation.referrer_email || null,
         razorpay_order_id: razorpayOrder.id,
         status: "created",
       })
@@ -176,10 +238,13 @@ Deno.serve(async (req: Request) => {
     return new Response(
       JSON.stringify({
         orderId: razorpayOrder.id,
-        amount: amount,
+        amount: finalAmount,
+        originalAmount: amount,
+        discountApplied: discountApplied,
         currency: "INR",
         keyId: razorpayKeyId,
         databaseOrderId: orderData.id,
+        referralApplied: referralValidation.valid
       }),
       {
         status: 200,
