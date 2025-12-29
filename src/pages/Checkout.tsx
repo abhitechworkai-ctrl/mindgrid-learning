@@ -244,11 +244,12 @@ export function Checkout() {
             }
 
             const verifyData = await verifyResponse.json();
+            const buyerReferralCode = verifyData.buyerReferralCode || '';
 
             if (promptPack) {
-              navigate('/prompt-pack/thank-you');
+              navigate(`/prompt-pack/thank-you?referralCode=${encodeURIComponent(buyerReferralCode)}`);
             } else {
-              navigate('/thank-you');
+              navigate(`/thank-you?referralCode=${encodeURIComponent(buyerReferralCode)}`);
             }
           } catch (error) {
             console.error('Error verifying payment:', error);
