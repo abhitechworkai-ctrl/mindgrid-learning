@@ -8,6 +8,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };
 
+const MINIMUM_REFERRAL_THRESHOLD = 249;
+
 interface VerifyPaymentRequest {
   razorpay_order_id: string;
   razorpay_payment_id: string;
@@ -63,6 +65,8 @@ async function trackReferral(supabaseClient: any, orderData: any) {
 
   if (!referrerData) return null;
 
+  const isRewardEligible = orderData.amount >= MINIMUM_REFERRAL_THRESHOLD;
+
   await supabaseClient
     .from('referrals')
     .insert({
@@ -74,8 +78,17 @@ async function trackReferral(supabaseClient: any, orderData: any) {
       purchase_amount: orderData.amount,
       product_purchased: orderData.pack_name || orderData.pack_type,
       status: 'completed',
-      reward_eligible: true
+      reward_eligible: isRewardEligible
     });
+
+  if (!isRewardEligible) {
+    return {
+      referrer_email: referrerData.customer_email,
+      new_count: null,
+      milestone_reached: false,
+      reward_eligible: false
+    };
+  }
 
   const { data: currentStats } = await supabaseClient
     .from('referrer_rewards')
@@ -124,7 +137,8 @@ async function trackReferral(supabaseClient: any, orderData: any) {
   return {
     referrer_email: referrerData.customer_email,
     new_count: newCount,
-    milestone_reached: newCount === 1 || newCount === 3 || newCount === 5 || newCount === 10
+    milestone_reached: newCount === 1 || newCount === 3 || newCount === 5 || newCount === 10,
+    reward_eligible: true
   };
 }
 
@@ -226,11 +240,16 @@ Deno.serve(async (req: Request) => {
       throw new Error("Failed to update order status");
     }
 
-    const buyerReferralCode = await generateReferralCode(
-      supabase,
-      orderData.customer_email,
-      orderData.customer_name
-    );
+    const isEligibleForReferral = orderData.amount >= MINIMUM_REFERRAL_THRESHOLD;
+
+    let buyerReferralCode = null;
+    if (isEligibleForReferral) {
+      buyerReferralCode = await generateReferralCode(
+        supabase,
+        orderData.customer_email,
+        orderData.customer_name
+      );
+    }
 
     const referralTracking = await trackReferral(supabase, orderData);
 
@@ -252,8 +271,10 @@ Deno.serve(async (req: Request) => {
             razorpay_payment_id: razorpay_payment_id,
             razorpay_order_id: razorpay_order_id,
             timestamp: new Date().toISOString(),
-            buyer_referral_code: buyerReferralCode,
+            buyer_referral_code: buyerReferralCode || "",
+            is_eligible_for_referral: isEligibleForReferral,
             referral_used: orderData.referral_code || null,
+            referral_reward_eligible: referralTracking?.reward_eligible || false,
             referrer_milestone_reached: referralTracking?.milestone_reached || false,
             referrer_email: referralTracking?.referrer_email || null,
             referrer_new_count: referralTracking?.new_count || 0,
@@ -273,7 +294,8 @@ Deno.serve(async (req: Request) => {
       JSON.stringify({
         success: true,
         orderId: databaseOrderId,
-        buyerReferralCode: buyerReferralCode,
+        buyerReferralCode: buyerReferralCode || null,
+        isEligibleForReferral: isEligibleForReferral,
         referralUsed: orderData.referral_code || null,
       }),
       {

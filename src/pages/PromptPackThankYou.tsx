@@ -7,12 +7,15 @@ import { useState, useEffect } from 'react';
 export function PromptPackThankYou() {
   const [searchParams] = useSearchParams();
   const [referralCode, setReferralCode] = useState<string>('');
+  const [isEligible, setIsEligible] = useState<boolean>(false);
   const [toast, setToast] = useState<string>('');
 
   useEffect(() => {
     const code = searchParams.get('referralCode');
-    if (code) {
+    const eligible = searchParams.get('eligible') === 'true';
+    if (code && eligible) {
       setReferralCode(code);
+      setIsEligible(true);
     }
   }, [searchParams]);
 
@@ -91,7 +94,7 @@ export function PromptPackThankYou() {
             </ul>
           </div>
 
-          {referralCode && (
+          {isEligible && referralCode && (
             <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200 animate-fade-up stagger-6">
               <h3 className="text-xl font-bold text-blue-800 mb-2">
                 🎁 Share & Earn FREE Study Materials!

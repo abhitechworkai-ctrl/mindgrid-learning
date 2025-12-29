@@ -245,11 +245,18 @@ export function Checkout() {
 
             const verifyData = await verifyResponse.json();
             const buyerReferralCode = verifyData.buyerReferralCode || '';
+            const isEligibleForReferral = verifyData.isEligibleForReferral || false;
+
+            const params = new URLSearchParams();
+            if (isEligibleForReferral && buyerReferralCode) {
+              params.set('referralCode', buyerReferralCode);
+              params.set('eligible', 'true');
+            }
 
             if (promptPack) {
-              navigate(`/prompt-pack/thank-you?referralCode=${encodeURIComponent(buyerReferralCode)}`);
+              navigate(`/prompt-pack/thank-you${params.toString() ? '?' + params.toString() : ''}`);
             } else {
-              navigate(`/thank-you?referralCode=${encodeURIComponent(buyerReferralCode)}`);
+              navigate(`/thank-you${params.toString() ? '?' + params.toString() : ''}`);
             }
           } catch (error) {
             console.error('Error verifying payment:', error);
