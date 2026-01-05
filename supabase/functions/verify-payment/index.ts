@@ -250,14 +250,9 @@ Deno.serve(async (req: Request) => {
         orderData.customer_name
       );
 
-      const updatedNotes = {
-        ...(orderData.notes || {}),
-        buyer_referral_code: buyerReferralCode
-      };
-
       await supabase
         .from("orders")
-        .update({ notes: updatedNotes })
+        .update({ buyer_referral_code: buyerReferralCode })
         .eq("id", databaseOrderId);
     }
 
