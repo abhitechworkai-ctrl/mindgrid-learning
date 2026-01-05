@@ -249,6 +249,16 @@ Deno.serve(async (req: Request) => {
         orderData.customer_email,
         orderData.customer_name
       );
+
+      const updatedNotes = {
+        ...(orderData.notes || {}),
+        buyer_referral_code: buyerReferralCode
+      };
+
+      await supabase
+        .from("orders")
+        .update({ notes: updatedNotes })
+        .eq("id", databaseOrderId);
     }
 
     const referralTracking = await trackReferral(supabase, orderData);
