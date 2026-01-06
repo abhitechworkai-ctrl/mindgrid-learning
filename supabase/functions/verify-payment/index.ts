@@ -1,6 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.4";
 import { createHmac } from "node:crypto";
+import Razorpay from "npm:razorpay@2.9.2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -151,17 +152,23 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
+    const razorpayKeyId = Deno.env.get("RAZORPAY_KEY_ID");
     const razorpayKeySecret = Deno.env.get("RAZORPAY_KEY_SECRET");
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
-    if (!razorpayKeySecret) {
-      throw new Error("Razorpay secret not configured");
+    if (!razorpayKeyId || !razorpayKeySecret) {
+      throw new Error("Razorpay credentials not configured");
     }
 
     if (!supabaseUrl || !supabaseServiceKey) {
       throw new Error("Supabase credentials not configured");
     }
+
+    const razorpay = new Razorpay({
+      key_id: razorpayKeyId,
+      key_secret: razorpayKeySecret,
+    });
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, databaseOrderId }: VerifyPaymentRequest = await req.json();
@@ -254,6 +261,20 @@ Deno.serve(async (req: Request) => {
         .from("orders")
         .update({ buyer_referral_code: buyerReferralCode })
         .eq("id", databaseOrderId);
+
+      try {
+        const currentOrder = await razorpay.orders.fetch(razorpay_order_id);
+        const existingNotes = currentOrder.notes || {};
+
+        await razorpay.orders.edit(razorpay_order_id, {
+          notes: {
+            ...existingNotes,
+            buyer_referral_code: buyerReferralCode
+          }
+        });
+      } catch (razorpayError) {
+        console.error("Failed to update Razorpay order notes:", razorpayError);
+      }
     }
 
     const referralTracking = await trackReferral(supabase, orderData);
