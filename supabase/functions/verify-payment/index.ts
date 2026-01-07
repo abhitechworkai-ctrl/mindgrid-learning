@@ -261,20 +261,6 @@ Deno.serve(async (req: Request) => {
         .from("orders")
         .update({ buyer_referral_code: buyerReferralCode })
         .eq("id", databaseOrderId);
-
-      try {
-        const currentOrder = await razorpay.orders.fetch(razorpay_order_id);
-        const existingNotes = currentOrder.notes || {};
-
-        await razorpay.orders.edit(razorpay_order_id, {
-          notes: {
-            ...existingNotes,
-            buyer_referral_code: buyerReferralCode
-          }
-        });
-      } catch (razorpayError) {
-        console.error("Failed to update Razorpay order notes:", razorpayError);
-      }
     }
 
     const referralTracking = await trackReferral(supabase, orderData);
