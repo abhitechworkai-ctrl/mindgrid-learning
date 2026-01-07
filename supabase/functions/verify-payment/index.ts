@@ -11,6 +11,10 @@ const corsHeaders = {
 
 const MINIMUM_REFERRAL_THRESHOLD = 249;
 
+// TEMPORARILY DISABLED - Re-enable for referral system
+// Set to true to re-enable the entire referral system
+const REFERRAL_ENABLED = false;
+
 interface VerifyPaymentRequest {
   razorpay_order_id: string;
   razorpay_payment_id: string;
@@ -249,8 +253,9 @@ Deno.serve(async (req: Request) => {
 
     const isEligibleForReferral = orderData.amount >= MINIMUM_REFERRAL_THRESHOLD;
 
+    // TEMPORARILY DISABLED - Re-enable for referral system
     let buyerReferralCode = null;
-    if (isEligibleForReferral) {
+    if (REFERRAL_ENABLED && isEligibleForReferral) {
       buyerReferralCode = await generateReferralCode(
         supabase,
         orderData.customer_email,
@@ -263,7 +268,8 @@ Deno.serve(async (req: Request) => {
         .eq("id", databaseOrderId);
     }
 
-    const referralTracking = await trackReferral(supabase, orderData);
+    // TEMPORARILY DISABLED - Re-enable for referral system
+    const referralTracking = REFERRAL_ENABLED ? await trackReferral(supabase, orderData) : null;
 
     const webhookUrl = Deno.env.get("MAKE_ORDER_WEBHOOK_URL");
     if (webhookUrl && webhookUrl.trim() !== "" && webhookUrl.toUpperCase() !== "DISABLED") {

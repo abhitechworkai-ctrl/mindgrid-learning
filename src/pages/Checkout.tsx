@@ -6,6 +6,7 @@ import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { supabase } from '../lib/supabase';
 import { env } from '../lib/env';
+import { FEATURES } from '../lib/featureFlags';
 
 interface Product {
   id: string;
@@ -184,7 +185,8 @@ export function Checkout() {
         customerName: name,
         customerEmail: email,
         customerPhone: phone || undefined,
-        referral_code: referralStatus === 'valid' ? referralCode : null,
+        // TEMPORARILY DISABLED - Re-enable for referral system
+        referral_code: FEATURES.REFERRAL_ENABLED && referralStatus === 'valid' ? referralCode : null,
       };
 
       if (product) {
@@ -389,70 +391,76 @@ export function Checkout() {
                 )}
               </div>
 
-              <div className="mt-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200">
-                <label className="block text-sm font-medium text-green-800 mb-2">
-                  Have a Referral Code? (Get 10% Off!)
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={referralCode}
-                    onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
-                    placeholder="MIND-XXXX-XXXX"
-                    className="flex-1 px-3 py-2 border border-green-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent uppercase"
-                    disabled={referralStatus === 'valid'}
-                  />
-                  {referralStatus !== 'valid' ? (
-                    <button
-                      type="button"
-                      onClick={validateReferralCode}
-                      disabled={referralStatus === 'validating'}
-                      className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
-                    >
-                      {referralStatus === 'validating' ? 'Checking...' : 'Apply'}
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={removeReferralCode}
-                      className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-                    >
-                      Remove
-                    </button>
+              {/* TEMPORARILY DISABLED - Re-enable for referral system */}
+              {FEATURES.REFERRAL_ENABLED && (
+                <div className="mt-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200">
+                  <label className="block text-sm font-medium text-green-800 mb-2">
+                    Have a Referral Code? (Get 10% Off!)
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={referralCode}
+                      onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
+                      placeholder="MIND-XXXX-XXXX"
+                      className="flex-1 px-3 py-2 border border-green-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent uppercase"
+                      disabled={referralStatus === 'valid'}
+                    />
+                    {referralStatus !== 'valid' ? (
+                      <button
+                        type="button"
+                        onClick={validateReferralCode}
+                        disabled={referralStatus === 'validating'}
+                        className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
+                      >
+                        {referralStatus === 'validating' ? 'Checking...' : 'Apply'}
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={removeReferralCode}
+                        className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+
+                  {referralStatus === 'valid' && (
+                    <p className="mt-2 text-green-600 text-sm flex items-center">
+                      Referral code applied! You save ₹{discountAmount}
+                    </p>
+                  )}
+
+                  {referralError && (
+                    <p className="mt-2 text-red-500 text-sm">
+                      {referralError}
+                    </p>
                   )}
                 </div>
+              )}
 
-                {referralStatus === 'valid' && (
-                  <p className="mt-2 text-green-600 text-sm flex items-center">
-                    Referral code applied! You save ₹{discountAmount}
-                  </p>
-                )}
-
-                {referralError && (
-                  <p className="mt-2 text-red-500 text-sm">
-                    {referralError}
-                  </p>
-                )}
-              </div>
-
-              <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                <div className="flex justify-between text-sm text-gray-600">
-                  <span>Original Price:</span>
-                  <span className={discountAmount > 0 ? 'line-through' : ''}>₹{item?.price}</span>
+{/* TEMPORARILY DISABLED - Re-enable for referral system */}
+              {FEATURES.REFERRAL_ENABLED && (
+                <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                  <div className="flex justify-between text-sm text-gray-600">
+                    <span>Original Price:</span>
+                    <span className={discountAmount > 0 ? 'line-through' : ''}>₹{item?.price}</span>
+                  </div>
+                  {discountAmount > 0 && (
+                    <>
+                      <div className="flex justify-between text-sm text-green-600 mt-1">
+                        <span>Referral Discount (10%):</span>
+                        <span>-₹{discountAmount}</span>
+                      </div>
+                      <div className="border-t mt-2 pt-2 flex justify-between font-semibold">
+                        <span>Final Price:</span>
+                        <span className="text-green-600">₹{finalPrice}</span>
+                      </div>
+                    </>
+                  )}
                 </div>
-                {discountAmount > 0 && (
-                  <>
-                    <div className="flex justify-between text-sm text-green-600 mt-1">
-                      <span>Referral Discount (10%):</span>
-                      <span>-₹{discountAmount}</span>
-                    </div>
-                    <div className="border-t mt-2 pt-2 flex justify-between font-semibold">
-                      <span>Final Price:</span>
-                      <span className="text-green-600">₹{finalPrice}</span>
-                    </div>
-                  </>
-                )}
-              </div>
+              )}
 
               <Button type="submit" fullWidth loading={isProcessing}>
                 {`Pay ₹${finalPrice}`}

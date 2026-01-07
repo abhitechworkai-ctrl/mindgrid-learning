@@ -3,6 +3,7 @@ import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { FEATURES } from '../lib/featureFlags';
 
 export function PromptPackThankYou() {
   const [searchParams] = useSearchParams();
@@ -94,7 +95,8 @@ export function PromptPackThankYou() {
             </ul>
           </div>
 
-          {isEligible && referralCode && (
+          {/* TEMPORARILY DISABLED - Re-enable for referral system */}
+          {FEATURES.REFERRAL_ENABLED && isEligible && referralCode && (
             <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200 animate-fade-up stagger-6">
               <h3 className="text-xl font-bold text-blue-800 mb-2">
                 🎁 Share & Earn FREE Study Materials!
