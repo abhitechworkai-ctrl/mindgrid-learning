@@ -4,10 +4,10 @@
 
 @layer base {
   :root {
-    --primary-navy: #0A2540;
-    --primary-blue: #88BDF2;
-    --primary-accent: #3498db;
-    --primary-light: #E6F2FF;
+    --primary-navy: #1A2238;
+    --primary-blue: #6A89A7;
+    --primary-accent: #F26B1D;
+    --primary-light: #FDF0E0;
 
     --spacing-xs: 8px;
     --spacing-sm: 12px;
@@ -34,7 +34,8 @@
   }
 
   body {
-    @apply bg-white text-gray-900;
+    @apply text-gray-900;
+    background-color: #FBF4E9;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -50,13 +51,13 @@
   select:focus {
     outline: none;
     border-color: var(--primary-accent);
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    box-shadow: 0 0 0 3px rgba(242, 107, 29, 0.12);
   }
 }
 
 @layer components {
   .skip-to-content {
-    @apply absolute -top-24 left-0 bg-blue-600 text-white px-4 py-2 rounded-md z-[9999] transition-all duration-200;
+    @apply absolute -top-24 left-0 bg-primary-navy text-white px-4 py-2 rounded-md z-[9999] transition-all duration-200;
   }
 
   .skip-to-content:focus {

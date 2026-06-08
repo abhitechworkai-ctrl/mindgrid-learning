@@ -1,5 +1,25 @@
 import { Link } from 'react-router-dom';
-import { BookOpen, Mail, Phone, Youtube, Facebook, Instagram, Linkedin } from 'lucide-react';
+import { Mail, Phone, Youtube, Facebook, Instagram, Linkedin, ExternalLink } from 'lucide-react';
+
+function MindGridLogo({ className = '' }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 40 40"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      <rect width="40" height="40" rx="8" fill="#1A2238" />
+      {[10, 20, 30].flatMap((x) =>
+        [10, 20, 30].map((y) => (
+          <circle key={`${x}-${y}`} cx={x} cy={y} r="1.5" fill="white" opacity="0.25" />
+        ))
+      )}
+      <path d="M23 5L13 22h7l-3 13 13-17h-7L23 5z" fill="#F26B1D" />
+    </svg>
+  );
+}
 
 export function Footer() {
   return (
@@ -7,15 +27,20 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
           <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <BookOpen className="w-6 h-6 text-primary-accent" aria-hidden="true" />
-              <div className="flex flex-col">
-                <span className="text-lg font-bold leading-tight">MindGrid Learning</span>
-                <span className="text-xs text-gray-400">Solutions</span>
+            <div className="flex items-center space-x-3 mb-4">
+              <MindGridLogo className="w-9 h-9 flex-shrink-0" />
+              <div className="flex flex-col leading-tight">
+                <span className="text-lg font-bold tracking-tight">
+                  <span className="text-white">Mind</span>
+                  <span className="text-primary-orange">Grid</span>
+                </span>
+                <span className="text-[10px] uppercase tracking-widest text-gray-400 font-medium">
+                  Learning Solutions
+                </span>
               </div>
             </div>
             <p className="text-gray-300 text-base leading-relaxed-body">
-              Simple, affordable, and effective exam preparation for CBSE Class 10 students.
+              Practical AI skills and affordable exam prep — empowering students and professionals across India.
             </p>
           </div>
 
@@ -24,9 +49,20 @@ export function Footer() {
             <nav aria-label="Products">
               <ul className="space-y-3">
                 <li>
+                  <a
+                    href="https://www.mindgridaiacademy.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-orange hover:text-orange-300 transition-all duration-200 hover:translate-x-1 inline-flex items-center gap-1.5 min-h-[32px] font-semibold"
+                  >
+                    AI Academy
+                    <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
+                  </a>
+                </li>
+                <li>
                   <Link
                     to="/exam-preparation"
-                    className="text-gray-300 hover:text-primary-accent transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
+                    className="text-gray-300 hover:text-primary-orange transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
                   >
                     Exam Preparation Packs
                   </Link>
@@ -34,7 +70,7 @@ export function Footer() {
                 <li>
                   <Link
                     to="/prompts"
-                    className="text-gray-300 hover:text-primary-accent transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
+                    className="text-gray-300 hover:text-primary-orange transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
                   >
                     AI Prompt Packs
                   </Link>
@@ -42,7 +78,7 @@ export function Footer() {
                 <li>
                   <Link
                     to="/free-resources"
-                    className="text-gray-300 hover:text-primary-accent transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
+                    className="text-gray-300 hover:text-primary-orange transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
                   >
                     Free Resources
                   </Link>
@@ -58,7 +94,7 @@ export function Footer() {
                 <li>
                   <Link
                     to="/contact"
-                    className="text-gray-300 hover:text-primary-accent transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
+                    className="text-gray-300 hover:text-primary-orange transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
                   >
                     Contact Us
                   </Link>
@@ -66,7 +102,7 @@ export function Footer() {
                 <li>
                   <Link
                     to="/refund-policy"
-                    className="text-gray-300 hover:text-primary-accent transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
+                    className="text-gray-300 hover:text-primary-orange transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
                   >
                     Refund Policy
                   </Link>
@@ -74,7 +110,7 @@ export function Footer() {
                 <li>
                   <Link
                     to="/shipping-policy"
-                    className="text-gray-300 hover:text-primary-accent transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
+                    className="text-gray-300 hover:text-primary-orange transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
                   >
                     Shipping Policy
                   </Link>
@@ -82,7 +118,7 @@ export function Footer() {
                 <li>
                   <Link
                     to="/privacy-policy"
-                    className="text-gray-300 hover:text-primary-accent transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
+                    className="text-gray-300 hover:text-primary-orange transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
                   >
                     Privacy Policy
                   </Link>
@@ -90,7 +126,7 @@ export function Footer() {
                 <li>
                   <Link
                     to="/terms"
-                    className="text-gray-300 hover:text-primary-accent transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
+                    className="text-gray-300 hover:text-primary-orange transition-all duration-200 hover:translate-x-1 inline-block min-h-[32px] flex items-center"
                   >
                     Terms & Conditions
                   </Link>
@@ -106,7 +142,7 @@ export function Footer() {
                 <Mail className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
                 <a
                   href="mailto:support@mindgridlearning.com"
-                  className="hover:text-primary-accent transition-colors duration-200"
+                  className="hover:text-primary-orange transition-colors duration-200"
                 >
                   support@mindgridlearning.com
                 </a>
@@ -115,7 +151,7 @@ export function Footer() {
                 <Phone className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
                 <a
                   href="tel:+919895626732"
-                  className="hover:text-primary-accent transition-colors duration-200"
+                  className="hover:text-primary-orange transition-colors duration-200"
                 >
                   +91 9895626732
                 </a>
@@ -132,7 +168,7 @@ export function Footer() {
                 href="https://www.youtube.com/@MindGridLearningSolutions"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-center w-11 h-11 rounded-full bg-gray-800 hover:bg-primary-accent transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-primary-accent/50"
+                className="group flex items-center justify-center w-11 h-11 rounded-full bg-gray-800 hover:bg-primary-orange transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-primary-orange/40"
                 aria-label="Visit our YouTube channel"
               >
                 <Youtube className="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" />
@@ -142,7 +178,7 @@ export function Footer() {
                 href="https://www.facebook.com/mindgridlearning/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-center w-11 h-11 rounded-full bg-gray-800 hover:bg-primary-accent transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-primary-accent/50"
+                className="group flex items-center justify-center w-11 h-11 rounded-full bg-gray-800 hover:bg-primary-orange transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-primary-orange/40"
                 aria-label="Visit our Facebook page"
               >
                 <Facebook className="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" />
@@ -177,7 +213,7 @@ export function Footer() {
           </div>
 
           <p className="text-gray-400 text-base leading-relaxed-body max-w-2xl mx-auto">
-            No expensive coaching. One-time affordable packs designed for CBSE Board students.
+            Practical AI skills and affordable exam prep — built for ambitious learners across India.
           </p>
           <p className="text-gray-500 text-sm">
             &copy; {new Date().getFullYear()} MindGrid Learning Solutions. All rights reserved.
